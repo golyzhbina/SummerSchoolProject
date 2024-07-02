@@ -1,7 +1,7 @@
 import docx
 
 
-def get_columns(document: docx.Document) -> list:
+def _get_columns(document: docx.Document) -> list:
     tables = document.tables
     columns = list()
     for i in range(len(tables)):
@@ -9,7 +9,7 @@ def get_columns(document: docx.Document) -> list:
     return columns
 
 
-def get_column_data(columns: list, column_index: int) -> list:
+def _get_column_data(columns: list, column_index: int) -> list:
     cells = list()
     for column in columns[column_index::9]:
         cells += column.cells[1:]
@@ -33,5 +33,5 @@ class DocParser:
         self.document = docx.Document(filename)
 
     def get_column_data(self, column_index: int) -> list:
-        columns = get_columns(self.document)
-        return get_column_data(columns, column_index)
+        columns = _get_columns(self.document)
+        return _get_column_data(columns, column_index)
