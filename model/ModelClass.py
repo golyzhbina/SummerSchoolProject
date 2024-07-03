@@ -1,5 +1,6 @@
 import numpy as np
 from parsing.DataClass import Data
+import eikonalfm
 
 
 class Model:
@@ -26,7 +27,11 @@ class Model:
     def __create_field(self, start_depth: int):
         self.field = np.ones((self.length, self.weigh))
         for i in range(self.length):
-            self.field[i] = self.field[i] / np.sqrt(self.data.speed_func(start_depth + self.step * i))
+            self.field[i] = self.field[i] / self.data.speed_func(start_depth + self.step * i)
+
+    def get_eikonal_solve(self, source: tuple) -> np.ndarray:
+        return eikonalfm.factored_fast_marching(self.field ** 2, source, self.step, 2)
+
 
 
 """
