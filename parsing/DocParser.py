@@ -1,6 +1,5 @@
 import docx
 
-
 def _get_columns(document: docx.Document) -> list:
     tables = document.tables
     columns = list()
