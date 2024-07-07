@@ -12,7 +12,7 @@ region = create_region(9658000, 5857000, 9658500, 5857500, 10)
 handler = ReceiverCoordsHandler()
 receivers_coords = handler.read_coords("C:\\Users\\golub\\test2\\pythonProject1\\coords.xlsx")
 traces = TracesReader().read_traces("C:\\Users\\golub\\Downloads\\Telegram Desktop\\00000215_276_22_14.18.0.sgy")
-model = ModelCreator().create_model("C:\\Users\\golub\\test2\\pythonProject1\\vel.docx",
+model = ModelCreator().create_model("/start_data/vel.docx",
                                     receivers_coords,
                                     region,
                                     step)
