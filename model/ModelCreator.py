@@ -28,21 +28,21 @@ class ModelCreator:
         return max(abs_depths), abs_depths
 
     def __get_speeds(self, parser: DocParser, abs_depths: np.ndarray) -> np.ndarray:
-        speeds = [float(elem) for elem in parser.get_column_data(8)]
+        speeds = [float(elem) if elem != '' else -1 for elem in parser.get_column_data(8)]
+        speeds = [elem for elem in filter(lambda x: x > 0, speeds)]
         return np.array(cut_list(speeds, len(speeds) - len(abs_depths)))
 
     def __regularization_data(self, abs_depth: np.ndarray, speeds: np.ndarray):
         return interpolate.interp1d(abs_depth, speeds)
 
     def __create_field(self, start_depth: int, speed_func, length: int, weigh: int, step: int) -> np.ndarray:
-        field = np.ones((length, weigh)) * 1000
+        field = np.ones((length, weigh))
         for i in range(length):
-            field[i] = field[i] / speed_func(start_depth + step * i)
+            field[i] *= speed_func(start_depth + step * i)
         return field
 
     def __calc_weigh(self, receivers_coords: np.ndarray, region: Region, step: int) -> int:
         weigh = max([distance(point1[0], point1[1], point2[0], point2[1])
                      for point1 in receivers_coords for point2 in region.list_op_points])
-        print()
         return int(ceil(weigh / step))
 

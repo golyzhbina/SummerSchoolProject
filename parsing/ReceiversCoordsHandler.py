@@ -10,8 +10,8 @@ class ReceiverCoordsHandler:
         file = pd.read_excel(filename, skiprows=1, index_col=[0, 1])
         return np.hsplit(file.values, 2)[0]
 
-    def get_coords_as_indexes(self, coords: np.ndarray, centre_x, centre_y, step: int) -> list:
-        indexes = [(int(round(distance(coords[i][0], coords[i][1], centre_x, centre_y) / step, 0)), i) for i in range(coords.shape[0])]
+    def get_coords_as_indexes(self, coords: np.ndarray, source: tuple, step: int) -> list:
+        indexes = [(int(distance(coords[i][0], coords[i][1], source[0], source[1]) / step), i) for i in range(coords.shape[0])]
         return indexes
 
     def shift_indexes(self, weigh: int,  indexes: list, shift: int) -> list:
