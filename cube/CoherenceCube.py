@@ -11,4 +11,4 @@ class CoherenceCube:
     region: Region
     interval: tuple     # in milliseconds
     interval_step: int  # in milliseconds
-    depth: int
+    depth: [int, float]

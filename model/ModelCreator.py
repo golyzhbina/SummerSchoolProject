@@ -43,6 +43,6 @@ class ModelCreator:
 
     def __calc_weigh(self, receivers_coords: np.ndarray, region: Region, step: int) -> int:
         weigh = max([distance(point1[0], point1[1], point2[0], point2[1])
-                     for point1 in receivers_coords for point2 in region.list_op_points])
+                     for point1 in receivers_coords for point2 in region.list_of_source])
         return int(ceil(weigh / step))
 

@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+import numpy as np
+
 
 @dataclass
 class Region:
@@ -8,7 +10,7 @@ class Region:
     amount_x: int
     amount_y: int
     step: int
-    list_op_points: list
+    list_of_source: np.ndarray
 
 
 def create_region(start_x, start_y, end_x, end_y, step):
@@ -19,5 +21,5 @@ def create_region(start_x, start_y, end_x, end_y, step):
                   amount_x,
                   amount_y,
                   step,
-                  [(x * step + start_x, y * step + start_y) for x in range(amount_x) for y in
-                   range(amount_y)])
+                  np.array([(x * step + start_x, y * step + start_y) for x in range(amount_x) for y in
+                   range(amount_y)]))

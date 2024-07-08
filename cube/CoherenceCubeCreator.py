@@ -20,19 +20,33 @@ class CoherenceCubeCreator:
 
         len_of_interval = time_interval[1] - time_interval[0]
         cube = np.zeros((region.amount_y * region.amount_x, len_of_interval))
-        handler = ReceiverCoordsHandler() # ?
+        handler = ReceiverCoordsHandler()
 
         abs_depth = int(round((depth + model.max_depth) / model.step, 0))
-        tt_calculator = TravelTimeCalculator() # ?
-        time_travel = tt_calculator.calc_travel_time(model, (abs_depth, 0))[-1]
+        tt_calculator = TravelTimeCalculator()
+        time_travel = tt_calculator.calc_travel_time(model, (abs_depth, 0))[-1] * 1000   # in milliseconds
+        receivers_coords_on_net = handler.get_coords_on_net(receivers_coords, region.list_of_source, model.step)
+        times_for_all_source = self.get_times_for_all_source(time_travel, receivers_coords_on_net, time_interval[0])
 
-        for i in range(len(region.list_op_points)):
-            receivers_coords_on_net = handler.get_coords_as_indexes(receivers_coords, region.list_op_points[i], model.step)
-            for receiver in receivers_coords_on_net:
-                index_in_trace = int(round(time_travel[receiver[0]], 0)) + time_interval[0]
+        for i in range(len(times_for_all_source)):
+            for j in range(len(times_for_all_source[i])):
+                index_in_trace = times_for_all_source[i][j]
                 for k in range(len_of_interval):
-                    cube[i][k] += traces.traces[receiver[1]][index_in_trace]
+                    cube[i][k] += traces.traces[j][index_in_trace]
                     index_in_trace += 1
 
-            print(f"{i}/{len(region.list_op_points)}")
+            print(f"{i}/{len(region.list_of_source)}")
         return CoherenceCube(cube, region, time_interval, dt, depth)
+
+    def get_times_for_all_source(self, time_travel: np.ndarray, receivers_coords_on_net: np.ndarray, start_time: int) -> np.ndarray:
+        times_for_all_source = list()
+
+        for i in range(len(receivers_coords_on_net)):
+            times_for_source = list()
+            receivers_coords_on_net[i] = sorted(receivers_coords_on_net[i], key=lambda x: x[1])
+            for receiver in receivers_coords_on_net[i]:
+                times_for_source.append(int(round(time_travel[receiver[0]], 0)) + start_time)
+
+            times_for_all_source.append(np.array(times_for_source))
+
+        return np.array(times_for_all_source)

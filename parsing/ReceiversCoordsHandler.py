@@ -10,18 +10,14 @@ class ReceiverCoordsHandler:
         file = pd.read_excel(filename, skiprows=1, index_col=[0, 1])
         return np.hsplit(file.values, 2)[0]
 
-    def get_coords_as_indexes(self, coords: np.ndarray, source: tuple, step: int) -> list:
+    def __get_coords_as_indexes(self, coords: np.ndarray, source: tuple, step: int) -> np.ndarray:
         indexes = [(int(distance(coords[i][0], coords[i][1], source[0], source[1]) / step), i) for i in range(coords.shape[0])]
-        return indexes
+        return np.array(indexes)
 
-    def shift_indexes(self, weigh: int,  indexes: list, shift: int) -> list:
-        new_weigh = weigh - shift
-        new_indexes = indexes.copy()
+    def get_coords_on_net(self, coords: np.ndarray, source_coords: np.ndarray, step: int) -> np.ndarray:
+        coords_on_net = list()
+        for source in source_coords:
+            coords_on_net.append(self.__get_coords_as_indexes(coords, source, step))
 
-        for i in range(len(indexes)):
-            if indexes[i][0] >= new_weigh:
-                new_indexes.remove(indexes[i])
-            elif indexes[i][0] <= shift:
-                new_indexes.append(indexes[i])
+        return np.array(coords_on_net)
 
-        return new_indexes
