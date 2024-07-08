@@ -13,17 +13,17 @@ class CoherenceCubeCreator:
                     region: Region,
                     traces: Traces,
                     model: Model,
-                    depth,
+                    depth: float,
                     receivers_coords: np.ndarray,
-                    time_interval,
-                    dt = 1) -> CoherenceCube:
+                    time_interval: tuple,
+                    dt) -> CoherenceCube:
 
         len_of_interval = time_interval[1] - time_interval[0]
         cube = np.zeros((region.amount_y * region.amount_x, len_of_interval))
-        handler = ReceiverCoordsHandler()
+        handler = ReceiverCoordsHandler() # ?
 
         abs_depth = int(round((depth + model.max_depth) / model.step, 0))
-        tt_calculator = TravelTimeCalculator()
+        tt_calculator = TravelTimeCalculator() # ?
         time_travel = tt_calculator.calc_travel_time(model, (abs_depth, 0))[-1]
 
         for i in range(len(region.list_op_points)):
