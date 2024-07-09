@@ -9,4 +9,4 @@ class Traces:
     sample_interval: int
     amount_samples: int
     length_of_trace: int
-    traces: np.array
+    traces: np.ndarray

@@ -1,5 +1,5 @@
 import numpy as np
-
+from main import create_cube
 from Region import Region
 from TravelTimeCalcutator import TravelTimeCalculator
 from cube.CoherenceCube import CoherenceCube
@@ -28,15 +28,10 @@ class CoherenceCubeCreator:
         receivers_coords_on_net = handler.get_coords_on_net(receivers_coords, region.list_of_source, model.step)
         times_for_all_source = self.get_times_for_all_source(time_travel, receivers_coords_on_net, time_interval[0])
 
-        for i in range(len(times_for_all_source)):
-            for j in range(len(times_for_all_source[i])):
-                index_in_trace = times_for_all_source[i][j]
-                for k in range(len_of_interval):
-                    cube[i][k] += traces.traces[j][index_in_trace]
-                    index_in_trace += 1
-
-            print(f"{i}/{len(region.list_of_source)}")
+        cube = create_cube(times_for_all_source, traces.traces, time_interval[0], time_interval[1])
+        print(cube.shape)
         return CoherenceCube(cube, region, time_interval, dt, depth)
+        
 
     def get_times_for_all_source(self, time_travel: np.ndarray, receivers_coords_on_net: np.ndarray, start_time: int) -> np.ndarray:
         times_for_all_source = list()
