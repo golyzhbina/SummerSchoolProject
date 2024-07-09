@@ -1,9 +1,9 @@
 # import tools to create the C extension
 from distutils.core import setup, Extension
 
-module_name = 'main'
+module_name = 'geo'
 # the files your extension is comprised of
-c_files = ['main.cpp']
+c_files = ['geo.cpp']
 include_dirs = ['/usr/include/python3.11/numpy']
 
 extension = Extension(

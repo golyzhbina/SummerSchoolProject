@@ -6,7 +6,7 @@ from cube.CoherenceCube import CoherenceCube
 from model.Model import Model
 from parsing.ReceiversCoordsHandler import ReceiverCoordsHandler
 from traces.Traces import Traces
-
+from geo import create_cube
 
 class CoherenceCubeCreator:
     
@@ -21,7 +21,6 @@ class CoherenceCubeCreator:
                     dt) -> CoherenceCube:
 
         len_of_interval = time_interval[1] - time_interval[0]
-        cube = np.zeros((region.amount_y * region.amount_x, len_of_interval))
         handler = ReceiverCoordsHandler()
 
         abs_depth = int(round((depth - model.max_depth) / model.step, 0))
@@ -29,15 +28,7 @@ class CoherenceCubeCreator:
         time_travel = tt_calculator.calc_travel_time(model, (abs_depth, 0))[-1] * 1000   # in milliseconds
         receivers_coords_on_net = handler.get_coords_on_net(receivers_coords, region.list_of_source, model.step)
         times_for_all_source = CoherenceCubeCreator.get_times_for_all_source(time_travel, receivers_coords_on_net, time_interval[0])
-
-        for i in range(len(times_for_all_source)):
-            for j in range(len(times_for_all_source[i])):
-                index_in_trace = times_for_all_source[i][j]
-                for k in range(len_of_interval):
-                    cube[i][k] += traces.traces[j][index_in_trace]
-                    index_in_trace += 1
-
-            print(f"{i}/{len(region.list_of_source)}")
+        cube = create_cube(times_for_all_source, traces.traces, time_interval[0], time_interval[1])
         return CoherenceCube(cube, region, time_interval, dt, depth)
 
     @staticmethod
