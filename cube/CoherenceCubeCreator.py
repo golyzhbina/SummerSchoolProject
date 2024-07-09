@@ -1,6 +1,6 @@
 import numpy as np
 
-from Region import Region
+from region.Region import Region
 from TravelTimeCalcutator import TravelTimeCalculator
 from cube.CoherenceCube import CoherenceCube
 from model.Model import Model
@@ -9,7 +9,9 @@ from traces.Traces import Traces
 
 
 class CoherenceCubeCreator:
-    def create_cube(self,
+    
+    @staticmethod
+    def create_cube(
                     region: Region,
                     traces: Traces,
                     model: Model,
@@ -22,11 +24,11 @@ class CoherenceCubeCreator:
         cube = np.zeros((region.amount_y * region.amount_x, len_of_interval))
         handler = ReceiverCoordsHandler()
 
-        abs_depth = int(round((depth + model.max_depth) / model.step, 0))
+        abs_depth = int(round((depth - model.max_depth) / model.step, 0))
         tt_calculator = TravelTimeCalculator()
         time_travel = tt_calculator.calc_travel_time(model, (abs_depth, 0))[-1] * 1000   # in milliseconds
         receivers_coords_on_net = handler.get_coords_on_net(receivers_coords, region.list_of_source, model.step)
-        times_for_all_source = self.get_times_for_all_source(time_travel, receivers_coords_on_net, time_interval[0])
+        times_for_all_source = CoherenceCubeCreator.get_times_for_all_source(time_travel, receivers_coords_on_net, time_interval[0])
 
         for i in range(len(times_for_all_source)):
             for j in range(len(times_for_all_source[i])):
@@ -38,7 +40,8 @@ class CoherenceCubeCreator:
             print(f"{i}/{len(region.list_of_source)}")
         return CoherenceCube(cube, region, time_interval, dt, depth)
 
-    def get_times_for_all_source(self, time_travel: np.ndarray, receivers_coords_on_net: np.ndarray, start_time: int) -> np.ndarray:
+    @staticmethod
+    def get_times_for_all_source(time_travel: np.ndarray, receivers_coords_on_net: np.ndarray, start_time: int) -> np.ndarray:
         times_for_all_source = list()
 
         for i in range(len(receivers_coords_on_net)):
