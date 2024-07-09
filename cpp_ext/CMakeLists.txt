@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.22)
+project(main)
+set(SOURCE_FILES main.cpp)
+link_libraries(python3.11)
+include_directories(/usr/include/python3.11/ /usr/include/python3.11/numpy)
+add_library(main SHARED ${SOURCE_FILES})
+target_compile_options(main PRIVATE -fPIC -g)
