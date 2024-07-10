@@ -11,7 +11,7 @@ class DocParser:
         abs_depths, speeds = DocParser.cut(abs_depths, speeds)
         abs_depths = [float(elem) for elem in abs_depths]
         speeds = [float(elem) for elem in speeds]
-        return abs_depths, speeds
+        return np.array(abs_depths), np.array(speeds)
     @staticmethod
     def get_column_data(document: docx.Document, column_index: int) -> list:
         columns = DocParser._get_columns(document)

@@ -13,5 +13,5 @@ class RegionCreator:
                       amount_x,
                       amount_y,
                       step,
-                      np.array([(x * step + start_x, y * step + start_y) for x in range(amount_x) for y in
-                                range(amount_y)]))
+                      np.array([(x * step + start_x, y * step + start_y) for y in range(amount_y) for x in
+                                range(amount_x)]))
