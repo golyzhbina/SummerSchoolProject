@@ -8,7 +8,9 @@ from region.Region import Region
 @dataclass
 class CoherenceCube:
     cube: np.ndarray
-    region: Region
-    interval: tuple     # in milliseconds
-    interval_step: int  # in milliseconds
-    depth: [int, float]
+    start_point_source: tuple
+    amount_point: tuple
+    step_on_net: int
+    time_interval: tuple     # in milliseconds
+    time_step: int  # in milliseconds
+    depth: int
