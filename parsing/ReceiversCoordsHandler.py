@@ -3,13 +3,27 @@ import pandas as pd
 
 distance = lambda x1, y1, x2, y2: np.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 
-
 class ReceiverCoordsHandler:
 
     @staticmethod
     def read_coords(filename: str) -> np.ndarray:
         file = pd.read_excel(filename, skiprows=1, index_col=[0, 1])
         return np.hsplit(file.values, 2)[0]
+    
+    @staticmethod
+    def read_from_txt(filename: str) -> np.ndarray:
+        file = open(filename, "r")
+        file.readline()
+        
+        data = file.readline()
+        coords = []
+        while data != "":
+            data = data.replace("\t", " ")
+            data = data.split()
+            coords.append(np.array([float(data[1]), float(data[2])]))
+            data = file.readline()
+        
+        return np.array(coords)
 
     @staticmethod
     def __get_coords_as_indexes(coords: np.ndarray, source: tuple, step: int) -> np.ndarray:

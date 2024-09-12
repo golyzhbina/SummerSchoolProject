@@ -2,6 +2,7 @@ from obspy.io.segy.core import _read_segy
 from obspy.core.util import get_example_file
 from traces.Traces import Traces
 from traces.TracesFilter import TracesFilter
+import numpy as np
 
 
 class TracesReader:
@@ -14,9 +15,9 @@ class TracesReader:
         traces = []
 
         for i in range(len(file)):
-            traces.append(file[i].data)
+            traces.append(file[i].data[0:35000])
 
-        traces = TracesFilter.filter_traces(traces)
+        #traces = TracesFilter.filter_traces(np.array(traces))
 
         return Traces(interval, amount_samples, amount_samples * interval, traces)
 
