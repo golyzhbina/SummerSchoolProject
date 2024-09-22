@@ -1,26 +1,21 @@
-from processing import read_cube, find_max, get_graphic_detect_func, get_slice, get_slices
+from processing_cube.processing import find_max, get_graphic_detect_func, get_slice, save_cube
 
-filename = input()
-cube, shape, start_time = read_cube(filename)
-
-command = input()
-while command != "stop":
-    if command == "fm":
-        print("enter interval")
-        interval = tuple([int(v) for v in input().split()])
-        find_max(cube, interval)
-    elif command == "gg":
-        print("enter x, y")
-        x, y = [int(v) for v in input().split()]
-        print("enter interval")
-        interval = tuple([int(v) for v in input().split()])
-        get_graphic_detect_func(cube, x, y, interval, start_time)
-    elif command == "gsl":
-        print("enter time")
-        t = int(input())
-        get_slice(cube, t)
-    elif command == "gsls":
-        print("enter interval")
-        interval = tuple([int(v) for v in input().split()])
-        get_slices(cube, interval)
+def start(cube):
+    print("enter command")
     command = input()
+    while command != "stop":
+        if command == "fm":
+            interval = tuple([int(v) for v in input("enter interval\n").split()])
+            find_max(cube, interval)
+        elif command == "gg":
+            interval = tuple([int(v) for v in input("enter interval\n").split()])
+            get_graphic_detect_func(cube, interval)
+        elif command == "gsl":
+            t = int(input("enter time\n"))
+            get_slice(cube, t)
+        elif command == "sc":
+            filename = input("input filename\n")
+            save_cube(cube, filename)
+
+        print("enter command")
+        command = input()
