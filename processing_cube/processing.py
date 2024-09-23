@@ -3,17 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def read_cube(filename):
-    file = open(filename, "r")
-    size = [int(num) for num in file.readline().split()]
-    shape = (size[0], size[1], size[2])
-    cube = np.zeros(shape)
-    for i in range(shape[0]):
-        for j in range(shape[1]):
-            arr = [float(num) for num in file.readline().split()]
-            for k in range(shape[2]):
-                cube[j][i][k] = arr[k]
-    file.close()
-    return cube
+    return np.load(filename)
 
 
 def find_max(cube: np.array, interval: tuple):
