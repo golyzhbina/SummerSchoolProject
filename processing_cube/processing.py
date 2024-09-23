@@ -14,7 +14,7 @@ def find_max(cube: np.array, interval: tuple):
 
 def get_graphic_detect_func(cube: np.ndarray, interval: tuple):
     cube = cube.reshape(cube.shape[0] * cube.shape[1], cube.shape[2])
-    plt.plot(np.amax(cube[:, :, interval[0]:interval[1]], axis=0))
+    plt.plot(np.amax(cube[:,  interval[0]:interval[1]], axis=0))
     plt.show()
 
 
