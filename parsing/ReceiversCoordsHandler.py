@@ -7,21 +7,14 @@ class ReceiverCoordsHandler:
 
     @staticmethod
     def read_coords(filename: str) -> np.ndarray:
-        file = pd.read_excel(filename, skiprows=1, index_col=[0, 1])
-        return np.hsplit(file.values, 2)[0]
-    
-    @staticmethod
-    def read_from_txt(filename: str) -> np.ndarray:
-        file = open(filename, "r")
-        file.readline()
-        
-        data = file.readline()
+
+        f = open(filename, "r")
+        data = f.readline()
         coords = []
         while data != "":
-            data = data.replace("\t", " ")
             data = data.split()
-            coords.append(np.array([float(data[1]), float(data[2])]))
-            data = file.readline()
+            coords.append(np.array([float(data[0]), float(data[1])]))
+            data = f.readline()
         
         return np.array(coords)
 
