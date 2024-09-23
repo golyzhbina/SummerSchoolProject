@@ -19,8 +19,8 @@ def get_graphic_detect_func(cube: np.ndarray, interval: tuple, filename):
 
 
 def get_slice(cube: np.ndarray, t, filename):
-    plt.imshow(cube[:, :, t])
-    plt.savefig(f"{filename}.png")
+    np.save(filename, cube[:, :, t])
+    
 
 
 def save_cube(cube, filename):
