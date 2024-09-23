@@ -1,4 +1,4 @@
-from processing_cube.processing import find_max, get_graphic_detect_func, get_slice, save_cube
+from processing_for_cluster.processing import find_max, get_graphic_detect_func, get_slice, save_cube
 
 def start(cube):
     print("enter command")

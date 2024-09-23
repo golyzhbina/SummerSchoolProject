@@ -15,7 +15,7 @@ class TracesReader:
         traces = []
 
         for i in range(len(file)):
-            traces.append(file[i].data[0:35000])
+            traces.append(file[i].data)
 
         #traces = TracesFilter.filter_traces(np.array(traces))
 
